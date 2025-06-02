@@ -1,0 +1,26 @@
+{
+    "questions": [
+        {
+            "id": 1,
+            "question": "Quelle est la bonne réponse ?",
+            "answers": [
+                {
+                    "answer": "A",
+                    "isCorrect": true
+                },
+                {
+                    "answer": "B",
+                    "isCorrect": false
+                },
+                {
+                    "answer": "C",
+                    "isCorrect": false
+                },
+                {
+                    "answer": "D",
+                    "isCorrect": false
+                }
+            ]
+        }
+    ]
+}
