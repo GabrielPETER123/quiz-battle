@@ -18,14 +18,22 @@ const Answer1 = document.getElementById('answer1');
 const Answer2 = document.getElementById('answer2');
 const Answer3 = document.getElementById('answer3');
 const Answer4 = document.getElementById('answer4');
+const ThemeOptions = document.getElementById('theme-options');
 
 let question = '', questions = {};
 let playerName = '', player1Name = '', player2Name = '';
 let pcPoint = 0, playerPoint = 0, player1Point = 0, player2Point = 0;
 let playerTurn = '';
+let themeChoose = '';
 
-const ChooseNumberOfPlayer = () => {
+const DisplayTheme = () => {
     HomeScreen.style.display = 'none';
+    ThemeOptions.style.display = 'block';
+}
+
+const ChooseTheme = (theme) => {
+    themeChoose = 'questions.json';
+    ThemeOptions.style.display = 'none';
     PlayerOptions.style.display = 'block';
 }
 
@@ -54,7 +62,8 @@ const StartQuizz = async () => {
 }
 
 const GetQuestions = async () => {
-    const Response = await fetch('questions.json');
+    const Response = await fetch(themeChoose);
+    console.log(Response);
     const Questions = await Response.json().then(data => {
 		return data;
 	});
@@ -72,8 +81,8 @@ const NextQuestion = async () => {
     }else{
         QuizzContainer.style.display = 'none';
         EndScreen.style.display = 'block';
-        //! C'est horrible mais ça prend qu'une ligne
-        Winner.innerText = (playerTurn === 'PC' || playerTurn === playerName) ?((pcPoint > playerPoint) ? 'PC' : ((pcPoint === playerPoint) ? 'Égalité': playerName)): ((player1Point > player2Point) ? player1Name : ((player1Point === player2Point) ? 'Égalité' : player2Name));
+        //** Oui c'est long, c'est pour afficher le message de win*/
+        Winner.innerText = (playerTurn === 'PC' || playerTurn === playerName) ? ((pcPoint > playerPoint) ? 'PC avec ' + pcPoint + 'Point(s)' : ((pcPoint === playerPoint) ? 'Égalité': playerName + ' avec ' + playerPoint + ' Point(s)')) : ((player1Point > player2Point) ? player1Name + ' avec ' + player1Point + ' Point(s)' : ((player1Point === player2Point) ? 'Égalité' : player2Name + ' avec ' + player2Point + ' Point(s)'));
         return;
     };
 

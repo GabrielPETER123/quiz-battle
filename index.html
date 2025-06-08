@@ -14,8 +14,18 @@
             <div class="flex flex-col items-center justify-center h-screen" id="home-screen">
                 <h1 class="text-4xl font-bold mb-4">Quizz Battle</h1>
                 <p class="text-lg mb-4">Bienvenue dans le Quizz Battle sur le thème de Question pour un champion !</p>
-                <button class="bg-blue-500 hover:bg-blue-700" onclick="ChooseNumberOfPlayer();" id="start-button">Commencer le Quizz</button>
+                <button class="bg-blue-500 hover:bg-blue-700" onclick="DisplayTheme();" id="start-button">Commencer le Quizz</button>
             </div>
+        </div>
+
+        <div id="theme-options" style="display: none;">
+            <h2>Choisissez un thème</h2>
+            <button onclick="ChooseTheme('general');">Général</button>
+            <button onclick="ChooseTheme('geography');">Géographie</button>
+            <button onclick="ChooseTheme('history');">Histoire</button>
+            <button onclick="ChooseTheme('science');">Sciences</button>
+            <button onclick="ChooseTheme('sports');">Sports</button>
+            <button onclick="ChooseTheme('entertainment');">Divertissement</button>
         </div>
 
         <div id="player-options" style="display: none;">
@@ -50,8 +60,6 @@
 
             <button onclick="StartQuizz();" id="start-quizz" style="display: none;">Démarrer le Quizz</button>
         </div>
-
-
 
         <div id="quizz-container" style="display: none;">
             <h2 id="title-Quizz"></h2>
