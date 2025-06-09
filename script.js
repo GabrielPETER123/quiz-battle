@@ -27,17 +27,19 @@ let playerTurn = '';
 let themeChoose = '';
 
 const DisplayTheme = () => {
+    //** Permet d'afficher le menun des thèmes */
     HomeScreen.style.display = 'none';
     ThemeOptions.style.display = 'block';
 }
 
 const ChooseTheme = (theme) => {
+    //* Affiche le bouton de démarrage du quizz et prend le thème*/
     themeChoose = 'questions.json';
     ThemeOptions.style.display = 'none';
     PlayerOptions.style.display = 'block';
 }
 
-const PreQuizz = async (nbr) => {
+const PreQuizz = (nbr) => {
     PlayerOptions.style.display = 'none';
     PlayerNames.style.display = 'block';
     //* Affiche les choix 1 ou 2 joueurs */
@@ -50,27 +52,26 @@ const PreQuizz = async (nbr) => {
 }
 
 const StartQuizz = async () => {
-    //* Cache les input de nom de joueur */
+    //** Affiche le bouton de démarrage du quizz */
     PlayerNames.style.display = 'none';
-
-    //* Affiche le bouton de démarrage du quizz */
     QuizzContainer.style.display = 'block';
 
-    //* Prend les questions et Affiche la prochaine question */
+    //** Prend les questions et Affiche la prochaine question */
     questions = await GetQuestions();
     NextQuestion();
 }
 
 const GetQuestions = async () => {
-    const Response = await fetch(themeChoose);
-    console.log(Response);
+    //** Prend les questions dans le fichier */
+    const Response = await fetch('questions/'+themeChoose);
     const Questions = await Response.json().then(data => {
 		return data;
 	});
 	return Questions;
 }
 
-const NextQuestion = async () => {
+const NextQuestion = () => {
+    //** Affhiche la prochaine question */
     Result.innerText = '';
 
 	let indexQuestion = 0;
@@ -89,6 +90,7 @@ const NextQuestion = async () => {
     question = questions.questions[indexQuestion];
     questions.questions.splice(indexQuestion, 1);
 
+    //** Affiche la question et les réponses possibles */
     Question.innerText = question.question;
     Answer1.innerText = question.answers[0].answer;
     Answer2.innerText = question.answers[1].answer;
@@ -101,22 +103,16 @@ const NextQuestion = async () => {
         Answer2.disabled = true;
         Answer3.disabled = true;
         Answer4.disabled = true;
-        
         setTimeout(() => {
             let answer = Math.floor(Math.random() * question.answers.length);
             CheckAnswer(answer);
         }, 1000);
-        
-        //** Réactive les bouttons */
-        Answer1.disabled = false;
-        Answer2.disabled = false;
-        Answer3.disabled = false;
-        Answer4.disabled = false;
     }
 
 }
 
 const CheckAnswer = (answer) => {
+    //** Vérifie la réponse */    
     let isCorrect = false;
 
     if (question.answers[answer].isCorrect) {
@@ -147,6 +143,7 @@ const CheckAnswer = (answer) => {
 }
 
 const WaitForNextQuestion = () => {
+    //** Attend 2 secondes avant de passer à la question suivante */
     setTimeout(() => {
         if (playerTurn === playerName || playerTurn === 'PC') {
             playerTurn = (playerTurn === 'PC') ? playerName : 'PC';
@@ -155,6 +152,11 @@ const WaitForNextQuestion = () => {
         } else {
             
         }
+        //** Réactive les bouttons */
+        Answer1.disabled = false;
+        Answer2.disabled = false;
+        Answer3.disabled = false;
+        Answer4.disabled = false;
         NextQuestion();
     }, 2000);
 }
