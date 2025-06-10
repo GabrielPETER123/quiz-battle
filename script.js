@@ -34,7 +34,7 @@ const DisplayTheme = () => {
 
 const ChooseTheme = (theme) => {
     //* Affiche le bouton de démarrage du quizz et prend le thème*/
-    themeChoose = 'questions.json';
+    themeChoose = 'qui_a_dit.json';
     ThemeOptions.style.display = 'none';
     PlayerOptions.style.display = 'block';
 }
