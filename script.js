@@ -2,9 +2,9 @@ const PlayerContainer = document.getElementById('player-container');
 const TwoPlayersContainer = document.getElementById('two-players-container');
 const PlayerNames = document.getElementById('player-names');
 const PlayerOptions = document.getElementById('player-options');
-const playerNameInput = document.getElementById('player-name');
-const player1NameInput = document.getElementById('player1-name');
-const player2NameInput = document.getElementById('player2-name');
+const PlayerNameInput = document.getElementById('player-name');
+const Player1NameInput = document.getElementById('player1-name');
+const Player2NameInput = document.getElementById('player2-name');
 const PlayersPoints = document.getElementById('players-points');
 const PlayerTurn = document.getElementById('player-turn');
 const StartQuizzButton = document.getElementById('start-quizz');
@@ -70,7 +70,7 @@ const GetQuestions = async () => {
 	return Questions;
 }
 
-const NextQuestion = () => {
+const NextQuestion = async() => {
     //** Affhiche la prochaine question */
     Result.innerText = '';
 
@@ -83,7 +83,8 @@ const NextQuestion = () => {
         QuizzContainer.style.display = 'none';
         EndScreen.style.display = 'block';
         //** Oui c'est long, c'est pour afficher le message de win*/
-        Winner.innerText = (playerTurn === 'PC' || playerTurn === playerName) ? ((pcPoint > playerPoint) ? 'PC avec ' + pcPoint : ((pcPoint === playerPoint) ? 'Égalité avec ' + playerPoint : playerName + ' avec ' + playerPoint )) : ((player1Point > player2Point) ? player1Name + ' avec ' + player1Point : ((player1Point === player2Point) ? 'Égalité avec ' + player1Point : player2Name + ' avec ' + player2Point));
+        Winner.innerText = 'Le gagnant est: ';
+        Winner.innerText += (playerTurn === 'PC' || playerTurn === playerName) ? ((pcPoint > playerPoint) ? 'PC avec ' + pcPoint : ((pcPoint === playerPoint) ? 'Égalité avec ' + playerPoint : playerName + ' avec ' + playerPoint )) : ((player1Point > player2Point) ? player1Name + ' avec ' + player1Point : ((player1Point === player2Point) ? 'Égalité avec ' + player1Point : player2Name + ' avec ' + player2Point));
         Winner.innerText += ' Point(s)';
         return;
     };
@@ -108,8 +109,9 @@ const NextQuestion = () => {
             let answer = Math.floor(Math.random() * question.answers.length);
             CheckAnswer(answer);
         }, 1000);
+    } else {
+        //TODO: FAIRE LE TIMER /
     }
-
 }
 
 const CheckAnswer = (answer) => {
@@ -172,14 +174,32 @@ const WaitForNextQuestion = () => {
 const GetPlayerName = (nbr) => {
     //* Récupèration de nom selon 1 ou 2 joueurs */
     if (nbr === 0) {
-        playerName = playerNameInput.value;
+        if(PlayerNameInput.value === '') {
+            alert('Veuillez entrer un nom de joueur !');
+            return;
+        }
+        if (/^pc$/i.test(PlayerNameInput.value.trim())) {
+            alert('Le nom du joueur ne peut pas être "PC" !');
+            return;
+        }
+
+        playerName = PlayerNameInput.value;
         PlayersPoints.innerText = playerName + ' : ' + playerPoint + '\nPC : ' + pcPoint;
         playerTurn = playerName;
         PlayerTurn.innerText = 'Au tour de ' + playerTurn + ' !';
         PlayerContainer.style.display = 'none';
     }else{
-        player1Name = player1NameInput.value; 
-        player2Name = player2NameInput.value;
+        if(Player1NameInput.value === '' || Player2NameInput.value === '') {
+            alert('Veuillez entrer un nom de joueur !');
+            return;
+        }
+        if (/^pc$/i.test(Player1NameInput.value.trim()) || /^pc$/i.test(Player2NameInput.value.trim())) {
+            alert('Le nom du joueur ne peut pas être "PC" !');
+            return;
+        }
+
+        player1Name = Player1NameInput.value; 
+        player2Name = Player2NameInput.value;
         PlayersPoints.innerText = player1Name + ' : ' + player1Point + '\n' + player2Name + ' : ' + player2Point;
         let temp = Math.floor(Math.random() * 2);
         playerTurn = (temp === 0) ? player1Name : player2Name;
@@ -189,4 +209,34 @@ const GetPlayerName = (nbr) => {
 
     //* Affiche le bouton de démarrage du quizz */
     StartQuizzButton.style.display = 'block';
+}
+
+const BackToHomePage = () => {
+    //** Retourne à la page d'accueil */
+    HomeScreen.style.display = 'block';
+    ThemeOptions.style.display = 'none';
+    PlayerOptions.style.display = 'none';
+    PlayerNames.style.display = 'none';
+    PlayerContainer.style.display = 'none';
+    TwoPlayersContainer.style.display = 'none';
+    QuizzContainer.style.display = 'none';
+    EndScreen.style.display = 'none';
+
+    //** Réinitialise les variables */
+    playerName = '';
+    player1Name = '';
+    player2Name = '';
+    playerTurn = '';
+    pcPoint = 0;
+    playerPoint = 0;
+    player1Point = 0;
+    player2Point = 0;
+}
+
+const TimerQuizz = () => {
+    //** Affiche le timer du quizz */
+    let timer = 30;
+    const TimerElement = document.getElementById('timer');
+    TimerElement.innerText = 'Temps restant: ' + timer + ' secondes';
+
 }
