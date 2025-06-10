@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
 <html lang="en">
     <head>
         <meta charset="UTF-8">
@@ -10,6 +9,7 @@
     </head>
 
     <body class>
+        <!-- Écran d'accueil -->
         <div class="flex items-center justify-center">
             <div class="flex flex-col items-center justify-center h-screen" id="home-screen">
                 <h1 class="text-4xl font-bold mb-4">Quizz Battle</h1>
@@ -19,6 +19,8 @@
         </div>
 
         <div id="theme-options" style="display: none;">
+            <!-- Permet de choisir le thème du quizz -->
+            <!--TODO: Faire les thèmes du quizz et les questions associées -->
             <h2>Choisissez un thème</h2>
             <button onclick="ChooseTheme('general');">Général</button>
             <button onclick="ChooseTheme('geography');">Géographie</button>
@@ -27,40 +29,44 @@
             <button onclick="ChooseTheme('sports');">Sports</button>
             <button onclick="ChooseTheme('entertainment');">Divertissement</button>
         </div>
-
+        <!-- Permet de choisir mode solo ou 2 joueurs -->
         <div id="player-options" style="display: none;">
             <h2>Choisissez le nombre de joueur</h2>
             <button onclick="PreQuizz(0);">1 Joueur</button>
             <button onclick="PreQuizz(1);">2 Joueurs</button>
         </div>
 
+        <!-- Les containers pour choissir le nom du ou des joueur(s) -->
         <div id="player-names" style="display: none;">
             
+            <!-- Container pour mode solo -->
             <div id="player-container" style="display: none;">
                 <h2>Entrez le nom du joueur</h2>
                 <label for="player">Joueur:</label>
                 <input type="text" id="player-name" placeholder="Nom du joueur">
                 <button onclick="GetPlayerName(0);">Valider</button>
             </div>
-            
+
+            <!-- Container pour 2 joueurs -->
             <div id="two-players-container" style="display: none;">
                 <h2>Entrez les noms des joueurs</h2>
 
-                <div id="player1-container" style="display: none;">
+                <div id="player1-container">
                     <label for="player1">Joueur 1:</label>
                     <input type="text" id="player1-name" placeholder="Nom du joueur 1">
                 </div>
                 
-                <div id="player2-container" style="display: none;">
+                <div id="player2-container">
                     <label for="player2">Joueur 2:</label>
                     <input type="text" id="player2-name" placeholder="Nom du joueur 2">
                 </div>
                 <button onclick="GetPlayerName(1);" id="get-players-name">Valider</button>
             </div>
-
+            <!-- Boutton pour commencer le quizz -->
             <button onclick="StartQuizz();" id="start-quizz" style="display: none;">Démarrer le Quizz</button>
         </div>
 
+        <!-- La question et les réponses -->
         <div id="quizz-container" style="display: none;">
             <h2 id="title-Quizz"></h2>
             <p id="players-points"></p>
@@ -75,12 +81,11 @@
             <p id="result"></p>
         </div>
 
+        <!-- Écran de fin du quizz -->
         <div id="end-screen" style="display: none;">
             <h1>Fin du Quizz</h1>
             <h1 id='winner'></h1>
         </div>
-
-
+        <!--TODO: Faire le boutton pour revenir à l'écran d'accueil avec son script -->
     </body>
-
 </html>

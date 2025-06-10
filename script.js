@@ -83,7 +83,8 @@ const NextQuestion = () => {
         QuizzContainer.style.display = 'none';
         EndScreen.style.display = 'block';
         //** Oui c'est long, c'est pour afficher le message de win*/
-        Winner.innerText = (playerTurn === 'PC' || playerTurn === playerName) ? ((pcPoint > playerPoint) ? 'PC avec ' + pcPoint + 'Point(s)' : ((pcPoint === playerPoint) ? 'Égalité': playerName + ' avec ' + playerPoint + ' Point(s)')) : ((player1Point > player2Point) ? player1Name + ' avec ' + player1Point + ' Point(s)' : ((player1Point === player2Point) ? 'Égalité' : player2Name + ' avec ' + player2Point + ' Point(s)'));
+        Winner.innerText = (playerTurn === 'PC' || playerTurn === playerName) ? ((pcPoint > playerPoint) ? 'PC avec ' + pcPoint : ((pcPoint === playerPoint) ? 'Égalité avec ' + playerPoint : playerName + ' avec ' + playerPoint )) : ((player1Point > player2Point) ? player1Name + ' avec ' + player1Point : ((player1Point === player2Point) ? 'Égalité avec ' + player1Point : player2Name + ' avec ' + player2Point));
+        Winner.innerText += ' Point(s)';
         return;
     };
 
@@ -112,6 +113,12 @@ const NextQuestion = () => {
 }
 
 const CheckAnswer = (answer) => {
+    //** Désactive les bouttons */
+    Answer1.disabled = true;
+    Answer2.disabled = true;
+    Answer3.disabled = true;
+    Answer4.disabled = true;
+
     //** Vérifie la réponse */    
     let isCorrect = false;
 
@@ -148,10 +155,11 @@ const WaitForNextQuestion = () => {
         if (playerTurn === playerName || playerTurn === 'PC') {
             playerTurn = (playerTurn === 'PC') ? playerName : 'PC';
             PlayersPoints.innerText = playerName + ' : ' + playerPoint + '\nPC : ' + pcPoint;
-            PlayerTurn.innerText = 'Au tour de ' + playerTurn + ' !';
         } else {
-            
+            playerTurn = (playerTurn === player1Name) ? player2Name : player1Name;
+            PlayersPoints.innerText = player1Name + ' : ' + player1Point + '\n' + player2Name + ' : ' + player2Point;
         }
+        PlayerTurn.innerText = 'Au tour de ' + playerTurn + ' !';
         //** Réactive les bouttons */
         Answer1.disabled = false;
         Answer2.disabled = false;
@@ -170,9 +178,11 @@ const GetPlayerName = (nbr) => {
         PlayerTurn.innerText = 'Au tour de ' + playerTurn + ' !';
         PlayerContainer.style.display = 'none';
     }else{
-        player1Name, player2Name = player1NameInput.value, player2NameInput.value;
+        player1Name = player1NameInput.value; 
+        player2Name = player2NameInput.value;
         PlayersPoints.innerText = player1Name + ' : ' + player1Point + '\n' + player2Name + ' : ' + player2Point;
-        playerTurn = player1Name;
+        let temp = Math.floor(Math.random() * 2);
+        playerTurn = (temp === 0) ? player1Name : player2Name;
         PlayerTurn.innerText = 'Au tour de ' + playerTurn + ' !';
         TwoPlayersContainer.style.display = 'none';
     }
