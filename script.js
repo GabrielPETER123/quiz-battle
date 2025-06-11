@@ -19,12 +19,18 @@ const Answer2 = document.getElementById('answer2');
 const Answer3 = document.getElementById('answer3');
 const Answer4 = document.getElementById('answer4');
 const ThemeOptions = document.getElementById('theme-options');
+const TimerQuizz = document.getElementById('timer');
+
+
 
 let question = '', questions = {};
 let playerName = '', player1Name = '', player2Name = '';
 let pcPoint = 0, playerPoint = 0, player1Point = 0, player2Point = 0;
 let playerTurn = '';
 let themeChoose = '';
+
+
+
 
 const DisplayTheme = () => {
     //** Permet d'afficher le menun des thèmes */
@@ -86,7 +92,7 @@ const NextQuestion = async() => {
         Winner.innerText = 'Le gagnant est: ';
         Winner.innerText += (playerTurn === 'PC' || playerTurn === playerName) ? ((pcPoint > playerPoint) ? 'PC avec ' + pcPoint : ((pcPoint === playerPoint) ? 'Égalité avec ' + playerPoint : playerName + ' avec ' + playerPoint )) : ((player1Point > player2Point) ? player1Name + ' avec ' + player1Point : ((player1Point === player2Point) ? 'Égalité avec ' + player1Point : player2Name + ' avec ' + player2Point));
         Winner.innerText += ' Point(s)';
-        return;
+        return; 
     };
 
     question = questions.questions[indexQuestion];
@@ -105,12 +111,27 @@ const NextQuestion = async() => {
         Answer2.disabled = true;
         Answer3.disabled = true;
         Answer4.disabled = true;
+        TimerQuizz.style.display = 'none';
+
         setTimeout(() => {
             let answer = Math.floor(Math.random() * question.answers.length);
             CheckAnswer(answer);
         }, 1000);
-    } else {
-        //TODO: FAIRE LE TIMER /
+    } else if (playerTurn === playerName) {
+        TimerQuizz.style.display = 'block';
+        let timer1Player = 10;
+        //** Affiche le timer du quizz */
+        TimerQuizz.innerText = 'Temps restant: ' + timer1Player + ' secondes';
+        const Interval = setInterval(() => {
+            timer1Player--;
+            TimerQuizz.innerText = 'Temps restant: ' + timer1Player + ' secondes';
+            if (timer <= 0 || stop === 'true') {
+                Result.innerText = 'Temps écoulé !';
+                WaitForNextQuestion();
+                clearInterval(Interval);
+                return;
+            }
+        }, 1000);
     }
 }
 
@@ -231,12 +252,4 @@ const BackToHomePage = () => {
     playerPoint = 0;
     player1Point = 0;
     player2Point = 0;
-}
-
-const TimerQuizz = () => {
-    //** Affiche le timer du quizz */
-    let timer = 30;
-    const TimerElement = document.getElementById('timer');
-    TimerElement.innerText = 'Temps restant: ' + timer + ' secondes';
-
 }
