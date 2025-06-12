@@ -15,6 +15,7 @@
                 <div class="flex flex-col items-center justify-center h-screen sm:h-120" id="home-screen">
                     <p class="text-white text-3xl sm:text-4xl font-bold md-4 text-center">Bienvenue dans</p>
                     <img src="public/QPUC4x.png" alt="LogoQPUC" class="w-60 sm:w-72 md:w-80 lg:w-96">
+                    <img src="public/samumu.png" alt="Samumu" class="w-20 sm:w-32 md:w-40 lg:w-56 mt-5">
                 </div>
             </div>
 
@@ -75,18 +76,18 @@
                     <div class="hexagon" data-index="2"><span>2</span></div>
                     <div class="hexagon" data-index="1"><span>1</span></div>
                 </div>
-                <div id="question-container" class="flex flex-col gap-3">
+                <div id="question-container" class="flex flex-col gap-3 items-center text-center justify-center">
                     <h1 id="title-Quizz"></h1>
-                    <p id="question"></p>
+                    <p id="question" class="subtitle"></p>
                     <div id="answers">
-                        <button onclick="CheckAnswer(0);" id="answer1"></button>
-                        <button onclick="CheckAnswer(1);" id="answer2"></button>
-                        <button onclick="CheckAnswer(2);" id="answer3"></button>
-                        <button onclick="CheckAnswer(3);" id="answer4"></button>
+                        <button class="main-menu-button" onclick="CheckAnswer(0);" id="answer1"></button>
+                        <button class="main-menu-button" onclick="CheckAnswer(1);" id="answer2"></button>
+                        <button class="main-menu-button" onclick="CheckAnswer(2);" id="answer3"></button>
+                        <button class="main-menu-button" onclick="CheckAnswer(3);" id="answer4"></button>
                     </div>
                     <p id="result"></p>
                 </div>
-                <div class="scoreboard" class="basic-container">
+                <div id="scoreboard" class="basic-container items-center">
                     <h2 id="timer"></h2>
                     <p id="player-turn"></p>
                     <h2 class="subtitle">Scores</h2>
