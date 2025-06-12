@@ -30,8 +30,6 @@ let playerTurn = '';
 let themeChoose = '';
 let stopTimer = false;
 
-
-
 const Init = () => {
     //** Retourne à la page d'accueil */
     MainMenu.style.display = 'block';
@@ -123,7 +121,7 @@ const NextQuestion = async() => {
         QuizzContainer.style.display = 'none';
         EndScreen.style.display = 'block';
         //** Oui c'est long, c'est pour afficher le message de win*/
-        Winner.innerText = 'Le gagnant est: ';
+        Winner.innerText = 'Le gagnant est:';
         Winner.innerText += (playerTurn === 'PC' || playerTurn === playerName) ? ((pcPoint > playerPoint) ? 'PC avec ' + pcPoint : ((pcPoint === playerPoint) ? 'Égalité avec ' + playerPoint : playerName + ' avec ' + playerPoint )) : ((player1Point > player2Point) ? player1Name + ' avec ' + player1Point : ((player1Point === player2Point) ? 'Égalité avec ' + player1Point : player2Name + ' avec ' + player2Point));
         Winner.innerText += ' Point(s)';
         return; 
@@ -137,8 +135,6 @@ const NextQuestion = async() => {
     Answer2.innerText = question.answers[1].answer;
     Answer3.innerText = question.answers[2].answer;
     Answer4.innerText = question.answers[3].answer;
-
-    console.log(playerTurn);
 
     if (playerTurn === 'PC') {
         //** Désactive les bouttons */
@@ -156,20 +152,8 @@ const NextQuestion = async() => {
         NextQuestion();
 
     } else if (playerTurn === playerName) {
-        stopTimer = false;
-        TimerQuizz.style.display = 'block';
-        let timer1Player = 10;
-        //** Affiche le timer du quizz */
-        TimerQuizz.innerText = 'Temps restant: ' + timer1Player + ' secondes';
-        const Interval = setInterval(() => {
-            timer1Player--;
-            TimerQuizz.innerText = 'Temps restant: ' + timer1Player + ' secondes';
-            if (timer1Player <= 0 || stopTimer === true) {
-                stop = 'false';
-                Result.innerText = 'Temps écoulé !';
-                clearInterval(Interval);
-            }
-        }, 1000);
+        await TimerQuestion();
+        TimerQuizz.innerText = 'Temps restant: 10 secondes';
         await WaitForNextQuestion();
         NextQuestion();
     }
@@ -275,3 +259,22 @@ const GetPlayerName = (nbr) => {
     PlayerNames.style.display = 'none';
 }
 
+const TimerQuestion = async() => {
+    return new Promise(resolve => {
+        stopTimer = false;
+        let timerQuestion = 10;
+        TimerQuizz.style.display = 'block';
+        const Interval = setInterval(() => {
+            timerQuestion--;
+            TimerQuizz.innerText = 'Temps restant: ' + timerQuestion + ' secondes';
+            if (timerQuestion <= 0 || stopTimer === true) {
+                TimerQuizz.style.display = 'none';
+                if (timerQuestion <= 0) {
+                    Result.innerText = 'Temps écoulé !';
+                }
+                clearInterval(Interval);
+                resolve();
+            }
+        }, 1000);
+    });
+}
