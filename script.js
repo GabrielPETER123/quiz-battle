@@ -34,6 +34,7 @@ const TimerQuizz = document.getElementById('timer');
 //** Audios */
 const Generique = document.getElementById('generique');
 const BeepGoodAnswer = document.getElementById('beep-good-answer');
+const Oui = document.getElementById('oui');
 
 //** Variables */
 let titleQuizz = document.getElementById('title-quizz');
@@ -221,9 +222,14 @@ const CheckAnswer = (answer) => {
     hex.classList.add(isCorrect ? 'correct' : 'incorrect');
 
     if (isCorrect) {
+        let temp = Math.floor(Math.random() * 3);
         //** Son de bonne réponse */
-        BeepGoodAnswer.play();
-        switch (playerTurn) {
+        if (temp != 0) {
+            BeepGoodAnswer.play();
+        } else {
+            Oui.play();
+        }
+       switch (playerTurn) {
             case playerName :
                 playerPoint++;
                 break;    
