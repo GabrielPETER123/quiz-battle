@@ -11,7 +11,7 @@
     <body class="bg-gradient-to-b from-[#002993] to-[#0092dd]">
         <!-- Écran d'accueil -->
         <section id="main-menu" class="relative min-h-screen flex flex-col lg:flew-row items-center justify-start lg:justify-center gap-2 p-4 sm:p-8">
-            <div class="flex flex-col items-center justify-start sm:mt-8 lg:mt-0 ">
+            <div class="flex flex-col items-center justify-start sm:mt-8 lg:mt-0">
                 <div class="flex flex-col items-center justify-center h-screen sm:h-120" id="home-screen">
                     <p class="text-white text-3xl sm:text-4xl font-bold md-4 text-center">Bienvenue dans</p>
                     <img src="public/QPUC4x.png" alt="LogoQPUC" class="w-60 sm:w-72 md:w-80 lg:w-96">
@@ -20,30 +20,30 @@
             </div>
 
             <div id="theme-options" class="basic-container">
-                <!-- Permet de choisir le thème du quizz -->    
+                <!-- Permet de choisir le thème du quizz -->
                 <h2 class="subtitle">Choisissez un thème</h2>
                 <button class="main-menu-button" onclick="ChooseTheme('qad');">Qui a dit ?</button>
                 <button class="main-menu-button" onclick="ChooseTheme('lqdmv');">Le Quizz de ma Vie, Celui qui gagne repart avec l'Héritage</button>
             </div>
 
             <!-- Permet de choisir mode solo ou 2 joueurs -->
-            <div id="player-options" class="basic-container">
+            <div id="player-options" class="basic-container hidden">
                 <h2 class="subtitle">Choisissez le nombre de joueur</h2>
                 <button class="main-menu-button" onclick="PreQuizz(0);">1 Joueur</button>
                 <button class="main-menu-button" onclick="PreQuizz(1);">2 Joueurs</button>
             </div>
 
             <!-- Les containers pour choissir le nom du ou des joueur(s) -->
-            <div id="player-names" class="basic-container">
+            <div id="player-names" class="basic-container hidden">
                 <!-- Container pour mode solo -->
-                <div id="player-container" class="player-container">
+                <div id="player-container" class="player-container hidden">
                     <h2 class="subtitle">Entrez le nom du joueur</h2>
                     <input type="text" id="player-name" class="input" placeholder="Nom du joueur">
                     <button onclick="GetPlayerName(0);" class="main-menu-button mt-2">Valider</button>
                 </div>
 
                 <!-- Container pour 2 joueurs -->
-                <div id="two-players-container" class="player-container">
+                <div id="two-players-container" class="player-container hidden">
                     <h2 class="subtitle">Entrez les noms des joueurs</h2>
                     <div id="player1-container">
                         <label for="player1" class="label">Joueur 1:</label>
@@ -57,11 +57,11 @@
                 </div>
             </div>
             <!-- Boutton pour commencer le quizz -->
-            <button onclick="StartQuizz();" id="start-quizz" class="main-menu-button mt-2">Démarrer le Quizz</button>
+            <button onclick="StartQuizz();" id="start-quizz" class="main-menu-button mt-2 hidden">Démarrer le Quizz</button>
         </section>
 
 
-        <section id="quizz-container" class="relative min-h-screen flex flex-col lg:flew-row justify-start lg:justify-center gap-2 p-2 sm:p-4">
+        <section id="quizz-container" class="relative min-h-screen flex flex-col lg:flew-row justify-start lg:justify-center gap-2 p-2 sm:p-4 hidden">
             <img src="public/QPUC4x.png" alt="LogoQPUC" class="w-30 sm:w-42 md:w-50 lg:w-66 self-center">
             <div class="flex flex-row justify-between ">
                 <div id="question-ladder" class="flex flex-col items-center gap-0">
@@ -77,7 +77,7 @@
                     <div class="hexagon" data-index="1"><span>1</span></div>
                 </div>
                 <div id="question-container" class="flex flex-col gap-3 items-center text-center justify-center">
-                    <h1 id="title-quizz"></h1>
+                    <h1 id="title-quizz" class="sub-subtitle"></h1>
                     <p id="question" class="subtitle"></p>
                     <div id="answers">
                         <button class="main-menu-button" onclick="CheckAnswer(0);" id="answer1"></button>
@@ -85,25 +85,35 @@
                         <button class="main-menu-button" onclick="CheckAnswer(2);" id="answer3"></button>
                         <button class="main-menu-button" onclick="CheckAnswer(3);" id="answer4"></button>
                     </div>
-                    <p id="result"></p>
+                    <p id="result" class="sub-subtitle"></p>
                 </div>
                 <div id="scoreboard" class="basic-container items-center">
-                    <h2 id="timer"></h2>
-                    <p id="player-turn"></p>
+                    <h2 id="timer" class="sub-subtitle"></h2>
+                    <p id="player-turn" class="sub-subtitle"></p>
                     <h2 class="subtitle">Scores</h2>
-                    <p id="players-points"></p>
-                    <div id="player2-score" class="score-item">
-                        <span id="player2-score"></span>: <span id="player2-points">0</span>
+                    <p id="players-points" class="sub-subtitle"></p>
+                    <div id="player2-score" class="score-item hidden">
+                        <span id="player2-name-score" class="sub-subtitle"></span>: <span id="player2-points" class="sub-subtitle">0</span>
                     </div>
                 </div>
             </div>
         </section>
 
         <!-- Écran de fin du quizz -->
-        <div id="end-screen">
-            <h1>Fin du Quizz</h1>
-            <h1 id='winner'></h1>
-            <button id="back-to-home-page" onclick="Init();">Retourner à la page d'accueil</button>
-        </div>
+        <section id="end-screen" class="relative min-h-screen flex flex-col lg:flew-row items-center justify-start lg:justify-center gap-2 p-4 sm:p-8 hidden">
+            <div class="flex flex-col items-center justify-start sm:mt-8 lg:mt-0">
+                <div class="flex flex-col items-center justify-center h-screen sm:h-120" id="end">
+                    <p class="text-white text-3xl sm:text-4xl font-bold md-4 text-center">Bienvenue dans</p>
+                    <img src="public/QPUC4x.png" alt="LogoQPUC" class="w-60 sm:w-72 md:w-80 lg:w-96">
+                    <img src="public/samumu.png" alt="Samumu" class="w-20 sm:w-32 md:w-40 lg:w-56 mt-5">
+                </div>
+            </div>
+
+            <div class="basic-container">
+                <h2 class="subtitle">Fin du Quizz</h2>
+                <h3 id='winner' class="sub-subtitle"></h3>
+                <button id="back-to-home-page" class="main-menu-button" onclick="Init();">Retourner à la page d'accueil</button>
+            </div>
+        </section>
     </body>
 </html>
