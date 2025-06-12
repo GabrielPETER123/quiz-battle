@@ -29,15 +29,6 @@ let pcPoint = 0, playerPoint = 0, player1Point = 0, player2Point = 0;
 let playerTurn = '';
 let themeChoose = '';
 
-
-
-
-const DisplayTheme = () => {
-    //** Permet d'afficher le menun des thèmes */
-    HomeScreen.style.display = 'none';
-    ThemeOptions.style.display = 'block';
-}
-
 const ChooseTheme = (theme) => {
     //* Affiche le bouton de démarrage du quizz et prend le thème*/
     themeChoose = 'qui_a_dit.json';
@@ -227,6 +218,7 @@ const GetPlayerName = (nbr) => {
         PlayerTurn.innerText = 'Au tour de ' + playerTurn + ' !';
         TwoPlayersContainer.style.display = 'none';
     }
+    PlayerNames.style.display = 'none';
 
     //* Affiche le bouton de démarrage du quizz */
     StartQuizzButton.style.display = 'block';
