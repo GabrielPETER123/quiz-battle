@@ -88,14 +88,15 @@ const PreQuizz = (nbr) => {
 
 const StartQuizz = async() => {
     //** Affiche le bouton de démarrage du quizz */
+    MainMenu.classList.add('hidden');
     PlayerContainer.classList.add('hidden');
     StartQuizzButton.classList.add('hidden');
-    MainMenu.classList.add('hidden');
     QuizzContainer.classList.remove('hidden');
+    //** Commence le Générique */
+    Generique.play();
     
     //** Prend les questions et Affiche la prochaine question */
     questions = await GetQuestions();
-    Generique.play();
     NextQuestion();
 }
 
@@ -178,6 +179,7 @@ const CheckAnswer = (answer) => {
     }
     
     if (isCorrect) {
+        //** Son de bonne réponse */
         BeepGoodAnswer.play();
         switch (playerTurn) {
             case playerName :
