@@ -1,17 +1,25 @@
-//** Variables globales */
+//**! Variables globales */
+
+//** Div */
+const MainMenu = document.getElementById('main-menu');
+const HomeScreen = document.getElementById('home-screen');
+const ThemeOptions = document.getElementById('theme-options');
 const PlayerContainer = document.getElementById('player-container');
 const TwoPlayersContainer = document.getElementById('two-players-container');
 const PlayerNames = document.getElementById('player-names');
 const PlayerOptions = document.getElementById('player-options');
+const StartQuizzButton = document.getElementById('start-quizz');
+const QuizzContainer = document.getElementById('quizz-container');
+const EndScreen = document.getElementById('end-screen');
+
+//** Bouttons */
 const PlayerNameInput = document.getElementById('player-name');
 const Player1NameInput = document.getElementById('player1-name');
 const Player2NameInput = document.getElementById('player2-name');
-const PlayersPoints = document.getElementById('players-points');
+
+//** p + h */
 const PlayerTurn = document.getElementById('player-turn');
-const StartQuizzButton = document.getElementById('start-quizz');
-const QuizzContainer = document.getElementById('quizz-container');
-const HomeScreen = document.getElementById('home-screen');
-const EndScreen = document.getElementById('end-screen');
+const PlayersPoints = document.getElementById('players-points');
 const Result = document.getElementById('result');
 const Winner = document.getElementById('winner');
 const Question = document.getElementById('question');
@@ -19,13 +27,14 @@ const Answer1 = document.getElementById('answer1');
 const Answer2 = document.getElementById('answer2');
 const Answer3 = document.getElementById('answer3');
 const Answer4 = document.getElementById('answer4');
-const ThemeOptions = document.getElementById('theme-options');
-const TimerQuizz = document.getElementById('timer');
-const MainMenu = document.getElementById('main-menu');
 const Player2Score = document.getElementById('player2-score');
+const TimerQuizz = document.getElementById('timer');
+
+//** Audios */
 const Generique = document.getElementById('generique');
 const BeepGoodAnswer = document.getElementById('beep-good-answer');
 
+//** Variables */
 let titleQuizz = document.getElementById('title-quizz');
 let question = '', questions = {};
 let playerName = '', player1Name = '', player2Name = '';
@@ -34,7 +43,7 @@ let playerTurn = '';
 let themeChoose = '';
 let stopTimer = false;
 
-
+//** Fonctions */
 const Init = () => {
     //** Retourne à la page d'accueil */
     MainMenu.classList.remove('hidden');
