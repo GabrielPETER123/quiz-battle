@@ -23,6 +23,8 @@ const ThemeOptions = document.getElementById('theme-options');
 const TimerQuizz = document.getElementById('timer');
 const MainMenu = document.getElementById('main-menu');
 const Player2Score = document.getElementById('player2-score');
+const Generique = document.getElementById('generique');
+const BeepGoodAnswer = document.getElementById('beep-good-answer');
 
 let titleQuizz = document.getElementById('title-quizz');
 let question = '', questions = {};
@@ -93,6 +95,7 @@ const StartQuizz = async() => {
     
     //** Prend les questions et Affiche la prochaine question */
     questions = await GetQuestions();
+    Generique.play();
     NextQuestion();
 }
 
@@ -175,21 +178,22 @@ const CheckAnswer = (answer) => {
     }
     
     if (isCorrect) {
+        BeepGoodAnswer.play();
         switch (playerTurn) {
             case playerName :
                 playerPoint++;
                 break;    
-                case player1Name :
-                    player1Point++;
-                    break;
-                    case player2Name :
-                        player2Point++;
-                        break;
-                        default:
-                            pcPoint++;
-                            break;
-                        }
-                    }
+            case player1Name :
+                player1Point++;
+                break;
+            case player2Name :
+                player2Point++;
+                break;
+            default:
+                pcPoint++;
+                break;
+        }
+    }
     stopTimer = true;
 }
 
