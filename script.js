@@ -1,3 +1,4 @@
+//** Variables globales */
 const PlayerContainer = document.getElementById('player-container');
 const TwoPlayersContainer = document.getElementById('two-players-container');
 const PlayerNames = document.getElementById('player-names');
@@ -20,18 +21,28 @@ const Answer3 = document.getElementById('answer3');
 const Answer4 = document.getElementById('answer4');
 const ThemeOptions = document.getElementById('theme-options');
 const TimerQuizz = document.getElementById('timer');
-
-
-
+const MainMenu = document.getElementById('main-menu');
 let question = '', questions = {};
 let playerName = '', player1Name = '', player2Name = '';
 let pcPoint = 0, playerPoint = 0, player1Point = 0, player2Point = 0;
 let playerTurn = '';
 let themeChoose = '';
+let stop = 'false';
+
+
+const DisplayTheme = () => {
+    //** Permet d'afficher le menun des thèmes */
+    HomeScreen.style.display = 'none';
+    ThemeOptions.style.display = 'block';
+}
 
 const ChooseTheme = (theme) => {
     //* Affiche le bouton de démarrage du quizz et prend le thème*/
-    themeChoose = 'qui_a_dit.json';
+    if (theme === 'qad') {
+        themeChoose = 'qui_a_dit.json';
+    } else if (theme === 'lqdmv') {
+        themeChoose = 'le_quizz_de_ma_vie.json';
+    }
     ThemeOptions.style.display = 'none';
     PlayerOptions.style.display = 'block';
 }
@@ -48,9 +59,11 @@ const PreQuizz = (nbr) => {
     }
 }
 
-const StartQuizz = async () => {
+const StartQuizz = async() => {
     //** Affiche le bouton de démarrage du quizz */
-    PlayerNames.style.display = 'none';
+    PlayerContainer.style.display = 'none';
+    StartQuizzButton.style.display = 'none';
+    MainMenu.style.display = 'none';
     QuizzContainer.style.display = 'block';
 
     //** Prend les questions et Affiche la prochaine question */
@@ -58,7 +71,7 @@ const StartQuizz = async () => {
     NextQuestion();
 }
 
-const GetQuestions = async () => {
+const GetQuestions = async() => {
     //** Prend les questions dans le fichier */
     const Response = await fetch('questions/'+themeChoose);
     const Questions = await Response.json().then(data => {
@@ -70,6 +83,7 @@ const GetQuestions = async () => {
 const NextQuestion = async() => {
     //** Affhiche la prochaine question */
     Result.innerText = '';
+
 
 	let indexQuestion = 0;
 	if (questions.questions.length > 1) {
@@ -108,7 +122,11 @@ const NextQuestion = async() => {
             let answer = Math.floor(Math.random() * question.answers.length);
             CheckAnswer(answer);
         }, 1000);
+        WaitForNextQuestion();
+        NextQuestion();
+
     } else if (playerTurn === playerName) {
+        stop = 'false';
         TimerQuizz.style.display = 'block';
         let timer1Player = 10;
         //** Affiche le timer du quizz */
@@ -116,10 +134,12 @@ const NextQuestion = async() => {
         const Interval = setInterval(() => {
             timer1Player--;
             TimerQuizz.innerText = 'Temps restant: ' + timer1Player + ' secondes';
-            if (timer <= 0 || stop === 'true') {
+            if (timer1Player <= 0 || stop === 'true') {
+                stop = 'false';
                 Result.innerText = 'Temps écoulé !';
-                WaitForNextQuestion();
                 clearInterval(Interval);
+                WaitForNextQuestion();
+                NextQuestion();
                 return;
             }
         }, 1000);
@@ -160,7 +180,7 @@ const CheckAnswer = (answer) => {
                 break;
         }
     }
-    WaitForNextQuestion();
+    stop = 'true'; 
 }
 
 const WaitForNextQuestion = () => {
@@ -179,7 +199,6 @@ const WaitForNextQuestion = () => {
         Answer2.disabled = false;
         Answer3.disabled = false;
         Answer4.disabled = false;
-        NextQuestion();
     }, 2000);
 }
 
@@ -218,10 +237,10 @@ const GetPlayerName = (nbr) => {
         PlayerTurn.innerText = 'Au tour de ' + playerTurn + ' !';
         TwoPlayersContainer.style.display = 'none';
     }
-    PlayerNames.style.display = 'none';
 
     //* Affiche le bouton de démarrage du quizz */
     StartQuizzButton.style.display = 'block';
+    PlayerNames.style.display = 'none';
 }
 
 const BackToHomePage = () => {
