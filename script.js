@@ -11,6 +11,7 @@ const PlayerOptions = document.getElementById('player-options');
 const StartQuizzButton = document.getElementById('start-quizz');
 const QuizzContainer = document.getElementById('quizz-container');
 const EndScreen = document.getElementById('end-screen');
+const Hexagons = document.querySelectorAll('.hexagon');
 
 //** Bouttons */
 const PlayerNameInput = document.getElementById('player-name');
@@ -42,6 +43,7 @@ let pcPoint = 0, playerPoint = 0, player1Point = 0, player2Point = 0;
 let playerTurn = '';
 let themeChoose = '';
 let stopTimer = false;
+let questionIndex = 10;
 
 //** Fonctions */
 const Init = () => {
@@ -57,6 +59,11 @@ const Init = () => {
     QuizzContainer.classList.add('hidden');
     Player2Score.classList.add('hidden');
     EndScreen.classList.add('hidden');
+    Hexagons.forEach(h => {
+      h.classList.remove('active', 'correct', 'incorrect');
+      h.style.setProperty('--fill', '100%');
+    });
+
     //** Réinitialise les variables */
     playerName = '';
     player1Name = '';
@@ -68,6 +75,7 @@ const Init = () => {
     player1Point = 0;
     player2Point = 0;
     stopTimer = false;
+    questionIndex = 10;
 }
 
 const ChooseTheme = (theme) => {
@@ -153,6 +161,9 @@ const NextQuestion = async() => {
     }
     question = questions.questions[indexQuestion];
     questions.questions.splice(indexQuestion, 1);
+    let hex = document.querySelector(`.hexagon[data-index="${questionIndex}"]`);
+    hex.classList.add('active');
+
     //** Affiche la question et les réponses possibles */
     Question.innerText = question.question;
     Answer1.innerText = question.answers[0].answer;
@@ -192,10 +203,12 @@ const CheckAnswer = (answer) => {
     
     //** Vérifie la réponse */    
     let isCorrect = false;
+    let hex = document.querySelector(`.hexagon[data-index="${questionIndex}"]`);
     
     if (question.answers[answer].isCorrect) {
         Result.innerText = 'Correct!';
         isCorrect = true;
+        hex.classList.remove('active');
     } else {
         Result.innerText = 'Incorrect!';
         isCorrect = false;
@@ -205,6 +218,7 @@ const CheckAnswer = (answer) => {
             }
         }
     }
+    hex.classList.add(isCorrect ? 'correct' : 'incorrect');
 
     if (isCorrect) {
         //** Son de bonne réponse */
@@ -230,6 +244,7 @@ const CheckAnswer = (answer) => {
         }
     }
     stopTimer = true;
+    questionIndex--;
 }
 
 const WaitForNextQuestion = async() => {
@@ -250,7 +265,7 @@ const WaitForNextQuestion = async() => {
         Answer3.disabled = false;
         Answer4.disabled = false;
         resolve();
-    }, 2000);
+    }, 4000);
 });
 }
 
@@ -307,6 +322,9 @@ const TimerQuestion = async() => {
                 TimerQuizz.classList.add('hidden');
                 if (timerQuestion <= 0) {
                     Result.innerText = 'Temps écoulé !';
+                    const hex = document.querySelector(`.hexagon[data-index="${questionIndex}"]`);
+                    hex.classList.add('incorrect');
+                    questionIndex--;
                 }
                 clearInterval(Interval);
                 resolve();
