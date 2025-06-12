@@ -190,9 +190,6 @@
   .mt-5 {
     margin-top: calc(var(--spacing) * 5);
   }
-  .block {
-    display: block;
-  }
   .flex {
     display: flex;
   }
