@@ -127,7 +127,7 @@
           "isCorrect": false
         },
         {
-          "answer": "4",
+          "answer": "4 ou +",
           "isCorrect": false
         }
       ]
@@ -149,7 +149,73 @@
           "isCorrect": false
         },
         {
-          "answer": "3",
+          "answer": "3 ou +",
+          "isCorrect": false
+        }
+      ]
+    },
+    {
+      "id": 8,
+      "question": "Combien de fois j'ai failli aller chez les flics ?",
+      "answers": [
+        {
+          "answer": "0",
+          "isCorrect": false
+        },
+        {
+          "answer": "1",
+          "isCorrect": true
+        },
+        {
+          "answer": "2",
+          "isCorrect": false
+        },
+        {
+          "answer": "3 ou +",
+          "isCorrect": false
+        }
+      ]
+    },
+    {
+      "id": 9,
+      "question": "Dans quel lieu insolite j'ai déjà dormi",
+      "answers": [
+        {
+          "answer": "Un château",
+          "isCorrect": false
+        },
+        {
+          "answer": "Une mine de charbon réaffecté",
+          "isCorrect": true
+        },
+        {
+          "answer": "Une grue",
+          "isCorrect": true
+        },
+        {
+          "answer": "Une épauve de bâteau",
+          "isCorrect": false
+        }
+      ]
+    },
+    {
+      "id": 10,
+      "question": "Comment s'appelle mon ex (que j'ai quitté en Juin)",
+      "awnsers": [
+        {
+          "answer": "Coralie",
+          "isCorrect": true
+        },
+        {
+          "answer": "Emilie",
+          "isCorrect": false
+        },
+        {
+          "answer": "Camille",
+          "isCorrect": false
+        },
+        {
+          "answer": "Lucie",
           "isCorrect": false
         }
       ]
