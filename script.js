@@ -22,13 +22,40 @@ const Answer4 = document.getElementById('answer4');
 const ThemeOptions = document.getElementById('theme-options');
 const TimerQuizz = document.getElementById('timer');
 const MainMenu = document.getElementById('main-menu');
+let titleQuizz = document.getElementById('title-quizz');
 let question = '', questions = {};
 let playerName = '', player1Name = '', player2Name = '';
 let pcPoint = 0, playerPoint = 0, player1Point = 0, player2Point = 0;
 let playerTurn = '';
 let themeChoose = '';
-let stop = 'false';
+let stopTimer = false;
 
+
+
+const Init = () => {
+    //** Retourne à la page d'accueil */
+    MainMenu.style.display = 'block';
+    HomeScreen.style.display = 'block';
+    ThemeOptions.style.display = 'block';
+    PlayerOptions.style.display = 'none';
+    PlayerNames.style.display = 'none';
+    PlayerContainer.style.display = 'none';
+    TwoPlayersContainer.style.display = 'none';
+    QuizzContainer.style.display = 'none';
+    EndScreen.style.display = 'none';
+
+    //** Réinitialise les variables */
+    playerName = '';
+    player1Name = '';
+    player2Name = '';
+    playerTurn = '';
+    titleQuizz.innerText = '';
+    pcPoint = 0;
+    playerPoint = 0;
+    player1Point = 0;
+    player2Point = 0;
+    stopTimer = false;
+}
 
 const DisplayTheme = () => {
     //** Permet d'afficher le menun des thèmes */
@@ -40,8 +67,10 @@ const ChooseTheme = (theme) => {
     //* Affiche le bouton de démarrage du quizz et prend le thème*/
     if (theme === 'qad') {
         themeChoose = 'qui_a_dit.json';
+        titleQuizz.innerText = 'Qui a dit ?';
     } else if (theme === 'lqdmv') {
         themeChoose = 'le_quizz_de_ma_vie.json';
+        titleQuizz.innerText = 'Le quizz de ma vie !';
     }
     ThemeOptions.style.display = 'none';
     PlayerOptions.style.display = 'block';
@@ -102,7 +131,6 @@ const NextQuestion = async() => {
 
     question = questions.questions[indexQuestion];
     questions.questions.splice(indexQuestion, 1);
-
     //** Affiche la question et les réponses possibles */
     Question.innerText = question.question;
     Answer1.innerText = question.answers[0].answer;
@@ -110,7 +138,9 @@ const NextQuestion = async() => {
     Answer3.innerText = question.answers[2].answer;
     Answer4.innerText = question.answers[3].answer;
 
-    if(playerTurn === 'PC') {
+    console.log(playerTurn);
+
+    if (playerTurn === 'PC') {
         //** Désactive les bouttons */
         Answer1.disabled = true;
         Answer2.disabled = true;
@@ -122,11 +152,11 @@ const NextQuestion = async() => {
             let answer = Math.floor(Math.random() * question.answers.length);
             CheckAnswer(answer);
         }, 1000);
-        WaitForNextQuestion();
+        await WaitForNextQuestion();
         NextQuestion();
 
     } else if (playerTurn === playerName) {
-        stop = 'false';
+        stopTimer = false;
         TimerQuizz.style.display = 'block';
         let timer1Player = 10;
         //** Affiche le timer du quizz */
@@ -134,15 +164,14 @@ const NextQuestion = async() => {
         const Interval = setInterval(() => {
             timer1Player--;
             TimerQuizz.innerText = 'Temps restant: ' + timer1Player + ' secondes';
-            if (timer1Player <= 0 || stop === 'true') {
+            if (timer1Player <= 0 || stopTimer === true) {
                 stop = 'false';
                 Result.innerText = 'Temps écoulé !';
                 clearInterval(Interval);
-                WaitForNextQuestion();
-                NextQuestion();
-                return;
             }
         }, 1000);
+        await WaitForNextQuestion();
+        NextQuestion();
     }
 }
 
@@ -180,11 +209,12 @@ const CheckAnswer = (answer) => {
                 break;
         }
     }
-    stop = 'true'; 
+    stopTimer = true;
 }
 
-const WaitForNextQuestion = () => {
+const WaitForNextQuestion = async() => {
     //** Attend 2 secondes avant de passer à la question suivante */
+    return new Promise(resolve => {
     setTimeout(() => {
         if (playerTurn === playerName || playerTurn === 'PC') {
             playerTurn = (playerTurn === 'PC') ? playerName : 'PC';
@@ -199,7 +229,9 @@ const WaitForNextQuestion = () => {
         Answer2.disabled = false;
         Answer3.disabled = false;
         Answer4.disabled = false;
-    }, 2000);
+        resolve();
+        }, 2000);
+    });
 }
 
 const GetPlayerName = (nbr) => {
@@ -243,24 +275,3 @@ const GetPlayerName = (nbr) => {
     PlayerNames.style.display = 'none';
 }
 
-const BackToHomePage = () => {
-    //** Retourne à la page d'accueil */
-    HomeScreen.style.display = 'block';
-    ThemeOptions.style.display = 'none';
-    PlayerOptions.style.display = 'none';
-    PlayerNames.style.display = 'none';
-    PlayerContainer.style.display = 'none';
-    TwoPlayersContainer.style.display = 'none';
-    QuizzContainer.style.display = 'none';
-    EndScreen.style.display = 'none';
-
-    //** Réinitialise les variables */
-    playerName = '';
-    player1Name = '';
-    player2Name = '';
-    playerTurn = '';
-    pcPoint = 0;
-    playerPoint = 0;
-    player1Point = 0;
-    player2Point = 0;
-}
