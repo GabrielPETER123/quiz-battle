@@ -201,7 +201,7 @@
     {
       "id": 10,
       "question": "Comment s'appelle mon ex (que j'ai quitté en Juin)",
-      "awnsers": [
+      "answers": [
         {
           "answer": "Coralie",
           "isCorrect": true

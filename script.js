@@ -161,7 +161,7 @@ const NextQuestion = async() => {
     }
     question = questions.questions[indexQuestion];
     questions.questions.splice(indexQuestion, 1);
-    let hex = document.querySelector(`.hexagon[data-index="${questionIndex}"]`);
+    const hex = document.querySelector(`.hexagon[data-index="${questionIndex}"]`);
     hex.classList.add('active');
 
     //** Affiche la question et les réponses possibles */
@@ -203,7 +203,7 @@ const CheckAnswer = (answer) => {
     
     //** Vérifie la réponse */    
     let isCorrect = false;
-    let hex = document.querySelector(`.hexagon[data-index="${questionIndex}"]`);
+    const hex = document.querySelector(`.hexagon[data-index="${questionIndex}"]`);
     
     if (question.answers[answer].isCorrect) {
         Result.innerText = 'Correct!';
@@ -212,7 +212,7 @@ const CheckAnswer = (answer) => {
     } else {
         Result.innerText = 'Incorrect!';
         isCorrect = false;
-        for (answer in question.answers) {
+        for (let answer in question.answers) {
             if (question.answers[answer].isCorrect) {
                 Result.innerText += '\nLa bonne réponse était: ' + question.answers[answer].answer;
             }
@@ -235,7 +235,7 @@ const CheckAnswer = (answer) => {
                 break;
             default:
                 pcPoint++;
-                for (answer in question.answers) {
+                for (let answer in question.answers) {
                     if (question.answers[answer].isCorrect) {
                         Result.innerText += '\nLa bonne réponse était: ' + question.answers[answer].answer;
                     }
