@@ -22,6 +22,8 @@ const Answer4 = document.getElementById('answer4');
 const ThemeOptions = document.getElementById('theme-options');
 const TimerQuizz = document.getElementById('timer');
 const MainMenu = document.getElementById('main-menu');
+const Player2Score = document.getElementById('player2-score');
+
 let titleQuizz = document.getElementById('title-quizz');
 let question = '', questions = {};
 let playerName = '', player1Name = '', player2Name = '';
@@ -30,18 +32,20 @@ let playerTurn = '';
 let themeChoose = '';
 let stopTimer = false;
 
+
 const Init = () => {
     //** Retourne à la page d'accueil */
-    MainMenu.style.display = 'block';
-    HomeScreen.style.display = 'block';
-    ThemeOptions.style.display = 'block';
-    PlayerOptions.style.display = 'none';
-    PlayerNames.style.display = 'none';
-    PlayerContainer.style.display = 'none';
-    TwoPlayersContainer.style.display = 'none';
-    QuizzContainer.style.display = 'none';
-    EndScreen.style.display = 'none';
-
+    MainMenu.classList.remove('hidden');
+    HomeScreen.classList.remove('hidden');
+    ThemeOptions.classList.remove('hidden');
+    PlayerOptions.classList.add('hidden');
+    PlayerNames.classList.add('hidden');
+    PlayerContainer.classList.add('hidden');
+    TwoPlayersContainer.classList.add('hidden');
+    StartQuizzButton.classList.add('hidden');
+    QuizzContainer.classList.add('hidden');
+    Player2Score.classList.add('hidden');
+    EndScreen.classList.add('hidden');
     //** Réinitialise les variables */
     playerName = '';
     player1Name = '';
@@ -55,12 +59,6 @@ const Init = () => {
     stopTimer = false;
 }
 
-const DisplayTheme = () => {
-    //** Permet d'afficher le menun des thèmes */
-    HomeScreen.style.display = 'none';
-    ThemeOptions.style.display = 'block';
-}
-
 const ChooseTheme = (theme) => {
     //* Affiche le bouton de démarrage du quizz et prend le thème*/
     if (theme === 'qad') {
@@ -70,29 +68,29 @@ const ChooseTheme = (theme) => {
         themeChoose = 'le_quizz_de_ma_vie.json';
         titleQuizz.innerText = 'Le quizz de ma vie !';
     }
-    ThemeOptions.style.display = 'none';
-    PlayerOptions.style.display = 'block';
+    ThemeOptions.classList.add('hidden');
+    PlayerOptions.classList.remove('hidden');
 }
 
 const PreQuizz = (nbr) => {
-    PlayerOptions.style.display = 'none';
-    PlayerNames.style.display = 'block';
+    PlayerOptions.classList.add('hidden');
+    PlayerNames.classList.remove('hidden');
     //* Affiche les choix 1 ou 2 joueurs */
     if (nbr === 0) {
-        PlayerContainer.style.display = 'block';
+        PlayerContainer.classList.remove('hidden');
     }
     if (nbr === 1) {
-        TwoPlayersContainer.style.display = 'block';
+        TwoPlayersContainer.classList.remove('hidden');
     }
 }
 
 const StartQuizz = async() => {
     //** Affiche le bouton de démarrage du quizz */
-    PlayerContainer.style.display = 'none';
-    StartQuizzButton.style.display = 'none';
-    MainMenu.style.display = 'none';
-    QuizzContainer.style.display = 'block';
-
+    PlayerContainer.classList.add('hidden');
+    StartQuizzButton.classList.add('hidden');
+    MainMenu.classList.add('hidden');
+    QuizzContainer.classList.remove('hidden');
+    
     //** Prend les questions et Affiche la prochaine question */
     questions = await GetQuestions();
     NextQuestion();
@@ -102,7 +100,7 @@ const GetQuestions = async() => {
     //** Prend les questions dans le fichier */
     const Response = await fetch('questions/'+themeChoose);
     const Questions = await Response.json().then(data => {
-		return data;
+        return data;
 	});
 	return Questions;
 }
@@ -110,23 +108,22 @@ const GetQuestions = async() => {
 const NextQuestion = async() => {
     //** Affhiche la prochaine question */
     Result.innerText = '';
-
-
-	let indexQuestion = 0;
+	
+    let indexQuestion = 0;
 	if (questions.questions.length > 1) {
-		indexQuestion = Math.floor(Math.random() * questions.questions.length);
+        indexQuestion = Math.floor(Math.random() * questions.questions.length);
 	}else if (questions.questions.length === 1) {
         indexQuestion = 0;
     }else{
-        QuizzContainer.style.display = 'none';
-        EndScreen.style.display = 'block';
+        QuizzContainer.classList.add('hidden');
+        EndScreen.classList.remove('hidden');
         //** Oui c'est long, c'est pour afficher le message de win*/
         Winner.innerText = 'Le gagnant est:';
         Winner.innerText += (playerTurn === 'PC' || playerTurn === playerName) ? ((pcPoint > playerPoint) ? 'PC avec ' + pcPoint : ((pcPoint === playerPoint) ? 'Égalité avec ' + playerPoint : playerName + ' avec ' + playerPoint )) : ((player1Point > player2Point) ? player1Name + ' avec ' + player1Point : ((player1Point === player2Point) ? 'Égalité avec ' + player1Point : player2Name + ' avec ' + player2Point));
         Winner.innerText += ' Point(s)';
         return; 
     };
-
+    
     question = questions.questions[indexQuestion];
     questions.questions.splice(indexQuestion, 1);
     //** Affiche la question et les réponses possibles */
@@ -135,22 +132,22 @@ const NextQuestion = async() => {
     Answer2.innerText = question.answers[1].answer;
     Answer3.innerText = question.answers[2].answer;
     Answer4.innerText = question.answers[3].answer;
-
+    
     if (playerTurn === 'PC') {
         //** Désactive les bouttons */
         Answer1.disabled = true;
         Answer2.disabled = true;
         Answer3.disabled = true;
         Answer4.disabled = true;
-        TimerQuizz.style.display = 'none';
-
+        TimerQuizz.classList.add('hidden');
+        
         setTimeout(() => {
             let answer = Math.floor(Math.random() * question.answers.length);
             CheckAnswer(answer);
         }, 1000);
         await WaitForNextQuestion();
         NextQuestion();
-
+        
     } else if (playerTurn === playerName) {
         await TimerQuestion();
         TimerQuizz.innerText = 'Temps restant: 10 secondes';
@@ -165,10 +162,10 @@ const CheckAnswer = (answer) => {
     Answer2.disabled = true;
     Answer3.disabled = true;
     Answer4.disabled = true;
-
+    
     //** Vérifie la réponse */    
     let isCorrect = false;
-
+    
     if (question.answers[answer].isCorrect) {
         Result.innerText = 'Correct!';
         isCorrect = true;
@@ -176,37 +173,37 @@ const CheckAnswer = (answer) => {
         Result.innerText = 'Incorrect!';
         isCorrect = false;
     }
-
+    
     if (isCorrect) {
         switch (playerTurn) {
             case playerName :
                 playerPoint++;
                 break;    
-            case player1Name :
-                player1Point++;
-                break;
-            case player2Name :
-                player2Point++;
-                break;
-            default:
-                pcPoint++;
-                break;
-        }
-    }
+                case player1Name :
+                    player1Point++;
+                    break;
+                    case player2Name :
+                        player2Point++;
+                        break;
+                        default:
+                            pcPoint++;
+                            break;
+                        }
+                    }
     stopTimer = true;
 }
 
 const WaitForNextQuestion = async() => {
     //** Attend 2 secondes avant de passer à la question suivante */
     return new Promise(resolve => {
-    setTimeout(() => {
-        if (playerTurn === playerName || playerTurn === 'PC') {
-            playerTurn = (playerTurn === 'PC') ? playerName : 'PC';
-            PlayersPoints.innerText = playerName + ' : ' + playerPoint + '\nPC : ' + pcPoint;
-        } else {
-            playerTurn = (playerTurn === player1Name) ? player2Name : player1Name;
-            PlayersPoints.innerText = player1Name + ' : ' + player1Point + '\n' + player2Name + ' : ' + player2Point;
-        }
+        setTimeout(() => {
+            if (playerTurn === playerName || playerTurn === 'PC') {
+                playerTurn = (playerTurn === 'PC') ? playerName : 'PC';
+                PlayersPoints.innerText = playerName + ' : ' + playerPoint + '\nPC : ' + pcPoint;
+            } else {
+                playerTurn = (playerTurn === player1Name) ? player2Name : player1Name;
+                PlayersPoints.innerText = player1Name + ' : ' + player1Point + '\n' + player2Name + ' : ' + player2Point;
+            }
         PlayerTurn.innerText = 'Au tour de ' + playerTurn + ' !';
         //** Réactive les bouttons */
         Answer1.disabled = false;
@@ -214,8 +211,8 @@ const WaitForNextQuestion = async() => {
         Answer3.disabled = false;
         Answer4.disabled = false;
         resolve();
-        }, 2000);
-    });
+    }, 2000);
+});
 }
 
 const GetPlayerName = (nbr) => {
@@ -229,12 +226,12 @@ const GetPlayerName = (nbr) => {
             alert('Le nom du joueur ne peut pas être "PC" !');
             return;
         }
-
+        
         playerName = PlayerNameInput.value;
         PlayersPoints.innerText = playerName + ' : ' + playerPoint + '\nPC : ' + pcPoint;
         playerTurn = playerName;
         PlayerTurn.innerText = 'Au tour de ' + playerTurn + ' !';
-        PlayerContainer.style.display = 'none';
+        PlayerContainer.classList.add('hidden');
     }else{
         if(Player1NameInput.value === '' || Player2NameInput.value === '') {
             alert('Veuillez entrer un nom de joueur !');
@@ -244,31 +241,31 @@ const GetPlayerName = (nbr) => {
             alert('Le nom du joueur ne peut pas être "PC" !');
             return;
         }
-
+        
         player1Name = Player1NameInput.value; 
         player2Name = Player2NameInput.value;
         PlayersPoints.innerText = player1Name + ' : ' + player1Point + '\n' + player2Name + ' : ' + player2Point;
         let temp = Math.floor(Math.random() * 2);
         playerTurn = (temp === 0) ? player1Name : player2Name;
         PlayerTurn.innerText = 'Au tour de ' + playerTurn + ' !';
-        TwoPlayersContainer.style.display = 'none';
+        TwoPlayersContainer.classList.add('hidden');
     }
-
+    
     //* Affiche le bouton de démarrage du quizz */
-    StartQuizzButton.style.display = 'block';
-    PlayerNames.style.display = 'none';
+    PlayerNames.classList.add('hidden');
+    StartQuizzButton.classList.remove('hidden');
 }
 
 const TimerQuestion = async() => {
     return new Promise(resolve => {
         stopTimer = false;
         let timerQuestion = 10;
-        TimerQuizz.style.display = 'block';
+        TimerQuizz.classList.remove('hidden');
         const Interval = setInterval(() => {
             timerQuestion--;
             TimerQuizz.innerText = 'Temps restant: ' + timerQuestion + ' secondes';
             if (timerQuestion <= 0 || stopTimer === true) {
-                TimerQuizz.style.display = 'none';
+                TimerQuizz.classList.add('hidden');
                 if (timerQuestion <= 0) {
                     Result.innerText = 'Temps écoulé !';
                 }
@@ -278,3 +275,5 @@ const TimerQuestion = async() => {
         }, 1000);
     });
 }
+
+Init();

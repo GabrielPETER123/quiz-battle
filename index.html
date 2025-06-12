@@ -19,7 +19,7 @@
                 </div>
             </div>
 
-            <div id="theme-options" class="basic-container" style="display: block;">
+            <div id="theme-options" class="basic-container">
                 <!-- Permet de choisir le thème du quizz -->    
                 <h2 class="subtitle">Choisissez un thème</h2>
                 <button class="main-menu-button" onclick="ChooseTheme('qad');">Qui a dit ?</button>
@@ -27,23 +27,23 @@
             </div>
 
             <!-- Permet de choisir mode solo ou 2 joueurs -->
-            <div id="player-options" class="basic-container" style="display: none;">
+            <div id="player-options" class="basic-container">
                 <h2 class="subtitle">Choisissez le nombre de joueur</h2>
                 <button class="main-menu-button" onclick="PreQuizz(0);">1 Joueur</button>
                 <button class="main-menu-button" onclick="PreQuizz(1);">2 Joueurs</button>
             </div>
 
             <!-- Les containers pour choissir le nom du ou des joueur(s) -->
-            <div id="player-names" class="basic-container" style="display: none;">
+            <div id="player-names" class="basic-container">
                 <!-- Container pour mode solo -->
-                <div id="player-container" class="player-container" style="display: none;">
+                <div id="player-container" class="player-container">
                     <h2 class="subtitle">Entrez le nom du joueur</h2>
                     <input type="text" id="player-name" class="input" placeholder="Nom du joueur">
                     <button onclick="GetPlayerName(0);" class="main-menu-button mt-2">Valider</button>
                 </div>
 
                 <!-- Container pour 2 joueurs -->
-                <div id="two-players-container" class="player-container" style="display: none;">
+                <div id="two-players-container" class="player-container">
                     <h2 class="subtitle">Entrez les noms des joueurs</h2>
                     <div id="player1-container">
                         <label for="player1" class="label">Joueur 1:</label>
@@ -57,11 +57,11 @@
                 </div>
             </div>
             <!-- Boutton pour commencer le quizz -->
-            <button onclick="StartQuizz();" id="start-quizz" style="display: none;" class="main-menu-button mt-2">Démarrer le Quizz</button>
+            <button onclick="StartQuizz();" id="start-quizz" class="main-menu-button mt-2">Démarrer le Quizz</button>
         </section>
 
 
-        <section id="quizz-container" class="relative min-h-screen flex flex-col lg:flew-row justify-start lg:justify-center gap-2 p-2 sm:p-4" style="display: none;">
+        <section id="quizz-container" class="relative min-h-screen flex flex-col lg:flew-row justify-start lg:justify-center gap-2 p-2 sm:p-4">
             <img src="public/QPUC4x.png" alt="LogoQPUC" class="w-30 sm:w-42 md:w-50 lg:w-66 self-center">
             <div class="flex flex-row justify-between ">
                 <div id="question-ladder" class="flex flex-col items-center gap-0">
@@ -92,15 +92,15 @@
                     <p id="player-turn"></p>
                     <h2 class="subtitle">Scores</h2>
                     <p id="players-points"></p>
-                    <div id="player2-score" class="score-item" style="display: none;">
-                        <span id="player2-name-score"></span>: <span id="player2-points">0</span>
+                    <div id="player2-score" class="score-item">
+                        <span id="player2-score"></span>: <span id="player2-points">0</span>
                     </div>
                 </div>
             </div>
         </section>
 
         <!-- Écran de fin du quizz -->
-        <div id="end-screen" style="display: none;">
+        <div id="end-screen">
             <h1>Fin du Quizz</h1>
             <h1 id='winner'></h1>
             <button id="back-to-home-page" onclick="Init();">Retourner à la page d'accueil</button>
