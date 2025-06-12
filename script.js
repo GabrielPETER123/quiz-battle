@@ -127,16 +127,30 @@ const NextQuestion = async() => {
         indexQuestion = Math.floor(Math.random() * questions.questions.length);
 	}else if (questions.questions.length === 1) {
         indexQuestion = 0;
-    }else{
+    } else {
         QuizzContainer.classList.add('hidden');
         EndScreen.classList.remove('hidden');
         //** Oui c'est long, c'est pour afficher le message de win*/
         Winner.innerText = 'Le gagnant est:';
-        Winner.innerText += (playerTurn === ' PC' || playerTurn === playerName) ? ((pcPoint > playerPoint) ? ' PC avec ' + pcPoint : ((pcPoint === playerPoint) ? ' Égalité avec ' + playerPoint : playerName + ' avec ' + playerPoint )) : ((player1Point > player2Point) ? player1Name + ' avec ' + player1Point : ((player1Point === player2Point) ? ' Égalité avec ' + player1Point : player2Name + ' avec ' + player2Point));
-        Winner.innerText += ' Point(s)';
-        return; 
-    };
-    
+        if (playerTurn === playerName || playerTurn === 'PC') {
+            if (pcPoint > playerPoint) {
+                Winner.innerText += ' PC avec ' + pcPoint + ' Point(s) !';
+            } else if (pcPoint < playerPoint) {
+                Winner.innerText += ' ' + playerName + ' avec ' + playerPoint + ' Point(s) !';
+            } else {
+                Winner.innerText += ' Personne, égalité avec ' + playerPoint + ' Point(s) !';
+            }
+        } else {
+            if (player1Point > player2Point) {
+                Winner.innerText += ' ' + player1Name + ' avec ' + player1Point + ' Point(s) !';
+            } else if (player1Point < player2Point) {
+                Winner.innerText += ' ' + player2Name + ' avec ' + player2Point + ' Point(s) !';
+            } else {
+                Winner.innerText += ' Personne, égalité avec ' + player1Point + ' Point(s) !';
+            }
+        }
+        return;
+    }
     question = questions.questions[indexQuestion];
     questions.questions.splice(indexQuestion, 1);
     //** Affiche la question et les réponses possibles */
@@ -161,7 +175,7 @@ const NextQuestion = async() => {
         await WaitForNextQuestion();
         NextQuestion();
         
-    } else if (playerTurn === playerName) {
+    } else {
         await TimerQuestion();
         TimerQuizz.innerText = 'Temps restant: 10 secondes';
         await WaitForNextQuestion();
@@ -191,8 +205,6 @@ const CheckAnswer = (answer) => {
             }
         }
     }
-
-
 
     if (isCorrect) {
         //** Son de bonne réponse */
