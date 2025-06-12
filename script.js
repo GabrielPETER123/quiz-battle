@@ -132,7 +132,7 @@ const NextQuestion = async() => {
         EndScreen.classList.remove('hidden');
         //** Oui c'est long, c'est pour afficher le message de win*/
         Winner.innerText = 'Le gagnant est:';
-        Winner.innerText += (playerTurn === 'PC' || playerTurn === playerName) ? ((pcPoint > playerPoint) ? 'PC avec ' + pcPoint : ((pcPoint === playerPoint) ? 'Égalité avec ' + playerPoint : playerName + ' avec ' + playerPoint )) : ((player1Point > player2Point) ? player1Name + ' avec ' + player1Point : ((player1Point === player2Point) ? 'Égalité avec ' + player1Point : player2Name + ' avec ' + player2Point));
+        Winner.innerText += (playerTurn === ' PC' || playerTurn === playerName) ? ((pcPoint > playerPoint) ? ' PC avec ' + pcPoint : ((pcPoint === playerPoint) ? ' Égalité avec ' + playerPoint : playerName + ' avec ' + playerPoint )) : ((player1Point > player2Point) ? player1Name + ' avec ' + player1Point : ((player1Point === player2Point) ? ' Égalité avec ' + player1Point : player2Name + ' avec ' + player2Point));
         Winner.innerText += ' Point(s)';
         return; 
     };
@@ -185,8 +185,15 @@ const CheckAnswer = (answer) => {
     } else {
         Result.innerText = 'Incorrect!';
         isCorrect = false;
+        for (answer in question.answers) {
+            if (question.answers[answer].isCorrect) {
+                Result.innerText += '\nLa bonne réponse était: ' + question.answers[answer].answer;
+            }
+        }
     }
-    
+
+
+
     if (isCorrect) {
         //** Son de bonne réponse */
         BeepGoodAnswer.play();
@@ -202,6 +209,11 @@ const CheckAnswer = (answer) => {
                 break;
             default:
                 pcPoint++;
+                for (answer in question.answers) {
+                    if (question.answers[answer].isCorrect) {
+                        Result.innerText += '\nLa bonne réponse était: ' + question.answers[answer].answer;
+                    }
+                }
                 break;
         }
     }
