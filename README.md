@@ -15,7 +15,8 @@ Il comprends 2 thème, un mode ContreCPU et un mode 2 joueur hors-ligne.
 
 1. Avoir Node.js installé sur son appareil (v22-16 ou +)
 2. Faire dans un terminal : `npm install`
-3. Une fois les dépendances installées, taper : `npx serve`. Vous devrez avoir ce message dans votre terminal : 
+3. Penser d'activer le son sans quoi vous ne profiterez pas pleinement de l'application.
+3. Une fois les dépendances installées et le son activé, taper : `npx serve`. Vous devrez avoir ce message dans votre terminal : 
 
 ```
    ┌────────────────────────────────────────┐
