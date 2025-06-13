@@ -1,0 +1,24 @@
+{
+  "name": "quiz-battle",
+  "version": "1.0.0",
+  "description": "Un Projet de Enzo GIARDINELLI et de Gabriel PETER.",
+  "main": "script.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/GabrielPETER123/quiz-battle.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/GabrielPETER123/quiz-battle/issues"
+  },
+  "homepage": "https://github.com/GabrielPETER123/quiz-battle#readme",
+  "dependencies": {
+    "@tailwindcss/cli": "^4.1.8",
+    "tailwindcss": "^4.1.8"
+  }
+}

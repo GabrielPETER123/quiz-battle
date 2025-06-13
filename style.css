@@ -1,0 +1,100 @@
+@import "tailwindcss";
+
+@layer base {
+    .main-menu-button {
+        @apply text-white bg-blue-700 hover:bg-blue-800 px-4 py-2 rounded-md transition text-left mt-3
+    }
+
+    .basic-container {
+        @apply bg-black/15 flex flex-col gap-4 p-6 sm:p-10 rounded-2xl shadow-2xl w-full max-w-md text-center
+    }
+
+    .player-container {
+        @apply justify-center text-center
+    }
+
+    .subtitle {
+        @apply text-white text-2xl sm:text-3xl md:text-4xl font-bold text-center mb-4
+    }
+
+    .sub-subtitle {
+        @apply text-white text-lg sm:text-xl md:text-2xl font-semibold text-center mb-4
+    }
+
+    .label {
+        @apply text-white text-sm sm:text-lg md:text-xl font-bold text-center mb-2
+    }
+
+    .input {
+        @apply p-2 rounded bg-white text-black w-full
+    }
+
+    .hexagon {
+        position: relative;
+        width: 80px;
+        height: 45px;
+        margin: 5px 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: bold;
+        font-size: 24px;
+        color: yellow;
+        transition: all 0.3s ease;
+    }
+
+    .hexagon::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: #4b9dd8;
+        clip-path: polygon(
+                25% 0%, 75% 0%,
+                100% 50%,
+                75% 100%, 25% 100%,
+                0% 50%
+        );
+        z-index: 0;
+    }
+
+    .hexagon::after {
+        content: "";
+        position: absolute;
+        inset: 4px;
+        background: orange;
+        clip-path: polygon(
+                25% 0%, 75% 0%,
+                100% 50%,
+                75% 100%, 25% 100%,
+                0% 50%
+        );
+        z-index: 1;
+    }
+
+    .hexagon span {
+        position: relative;
+        z-index: 2;
+        pointer-events: none;
+    }
+
+    .hexagon.active::after {
+        background: #facc15;
+        color: black;
+    }
+
+    .hexagon.correct::after {
+        background: #22c55e;
+    }
+
+    .hexagon.incorrect::after {
+        background: #ef4444;
+    }
+
+    .hexagon.correct span, .hexagon.incorrect span {
+        color: white;
+    }
+
+    .hexagon.active span {
+        color: black;
+    }
+}

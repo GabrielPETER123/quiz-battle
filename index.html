@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Question pour un couillon</title>
+        <link rel="stylesheet" href="./output.css">
+        <link rel="icon" type="image/x-icon" href="public/QPUCfav.png"/>
+        <script src="script.js" defer></script>
+    </head>
+    
+    <body class="bg-gradient-to-b from-[#002993] to-[#0092dd]">
+        <!-- Écran d'accueil -->
+        <section id="main-menu" class="relative min-h-screen flex flex-col lg:flew-row items-center justify-start lg:justify-center gap-2 p-4 sm:p-8">
+            <div class="flex flex-col items-center justify-start sm:mt-8 lg:mt-0">
+                <div class="flex flex-col items-center justify-center h-screen sm:h-120" id="home-screen">
+                    <p class="text-white text-3xl sm:text-4xl font-bold md-4 text-center">Bienvenue dans</p>
+                    <img src="public/QPUC4x.png" alt="LogoQPUC" class="w-60 sm:w-72 md:w-80 lg:w-96">
+                    <img src="public/samumu.png" alt="Samumu" class="w-20 sm:w-32 md:w-40 lg:w-56 mt-5">
+                </div>
+            </div>
+
+            <div id="theme-options" class="basic-container">
+                <!-- Permet de choisir le thème du quizz -->
+                <h2 class="subtitle">Choisissez un thème</h2>
+                <button class="main-menu-button" onclick="ChooseTheme('qad');">Qui a dit ?</button>
+                <button class="main-menu-button" onclick="ChooseTheme('lqdmv');">Le Quizz de ma Vie, Celui qui gagne repart avec l'Héritage</button>
+            </div>
+
+            <!-- Permet de choisir mode solo ou 2 joueurs -->
+            <div id="player-options" class="basic-container hidden">
+                <h2 class="subtitle">Choisissez le nombre de joueur</h2>
+                <button class="main-menu-button" onclick="PreQuizz(0);">1 Joueur</button>
+                <button class="main-menu-button" onclick="PreQuizz(1);">2 Joueurs</button>
+            </div>
+
+            <!-- Les containers pour choissir le nom du ou des joueur(s) -->
+            <div id="player-names" class="basic-container hidden">
+                <!-- Container pour mode solo -->
+                <div id="player-container" class="player-container hidden">
+                    <h2 class="subtitle">Entrez le nom du joueur</h2>
+                    <input type="text" id="player-name" class="input" placeholder="Nom du joueur">
+                    <button onclick="GetPlayerName(0);" class="main-menu-button mt-2">Valider</button>
+                </div>
+
+                <!-- Container pour 2 joueurs -->
+                <div id="two-players-container" class="player-container hidden">
+                    <h2 class="subtitle">Entrez les noms des joueurs</h2>
+                    <div id="player1-container">
+                        <label for="player1" class="label">Joueur 1:</label>
+                        <input type="text" id="player1-name" placeholder="Nom du joueur 1" class="input">
+                    </div>
+                    <div id="player2-container">
+                        <label for="player2" class="label">Joueur 2:</label>
+                        <input type="text" id="player2-name" placeholder="Nom du joueur 2" class="input">
+                    </div>
+                    <button onclick="GetPlayerName(1);" id="get-players-name" class="main-menu-button">Valider</button>
+                </div>
+            </div>
+            <!-- Boutton pour commencer le quizz -->
+            <button onclick="StartQuizz();" id="start-quizz" class="main-menu-button mt-2 hidden">Démarrer le Quizz</button>
+        </section>
+
+
+        <section id="quizz-container" class="relative min-h-screen flex flex-col lg:flew-row justify-start lg:justify-center gap-2 p-2 sm:p-4 hidden">
+            <img src="public/QPUC4x.png" alt="LogoQPUC" class="w-30 sm:w-42 md:w-50 lg:w-66 self-center">
+            <audio id="generique" src="generique.mp3"></audio>            
+            <audio id="beep-good-answer" src="beep-fin.mp3"></audio>
+            <audio id="oui" src="oui.mp3"></audio>
+            
+            <div class="flex flex-row justify-between ">
+                <div id="question-ladder" class="flex flex-col items-center gap-0">
+                    <div class="hexagon" data-index="10"><span>10</span></div>
+                    <div class="hexagon" data-index="9"><span>9</span></div>
+                    <div class="hexagon" data-index="8"><span>8</span></div>
+                    <div class="hexagon" data-index="7"><span>7</span></div>
+                    <div class="hexagon" data-index="6"><span>6</span></div>
+                    <div class="hexagon" data-index="5"><span>5</span></div>
+                    <div class="hexagon" data-index="4"><span>4</span></div>
+                    <div class="hexagon" data-index="3"><span>3</span></div>
+                    <div class="hexagon" data-index="2"><span>2</span></div>
+                    <div class="hexagon" data-index="1"><span>1</span></div>
+                </div>
+                <div id="question-container" class="flex flex-col gap-3 items-center text-center justify-center">
+                    <h1 id="title-quizz" class="sub-subtitle"></h1>
+                    <p id="question" class="subtitle"></p>
+                    <div id="answers">
+                        <button class="main-menu-button" onclick="CheckAnswer(0);" id="answer1"></button>
+                        <button class="main-menu-button" onclick="CheckAnswer(1);" id="answer2"></button>
+                        <button class="main-menu-button" onclick="CheckAnswer(2);" id="answer3"></button>
+                        <button class="main-menu-button" onclick="CheckAnswer(3);" id="answer4"></button>
+                    </div>
+                    <p id="result" class="sub-subtitle"></p>
+                </div>
+                <div id="scoreboard" class="basic-container items-center">
+                    <h2 id="timer" class="sub-subtitle"></h2>
+                    <p id="player-turn" class="sub-subtitle"></p>
+                    <h2 class="subtitle">Scores</h2>
+                    <p id="players-points" class="sub-subtitle"></p>
+                    <div id="player2-score" class="score-item hidden">
+                        <span id="player2-name-score" class="sub-subtitle"></span>: <span id="player2-points" class="sub-subtitle">0</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Écran de fin du quizz -->
+        <section id="end-screen" class="relative min-h-screen flex flex-col lg:flew-row items-center justify-start lg:justify-center gap-2 p-4 sm:p-8 hidden">
+            <div class="flex flex-col items-center justify-start sm:mt-8 lg:mt-0">
+                <div class="flex flex-col items-center justify-center h-screen sm:h-120" id="end">
+                    <p class="text-white text-3xl sm:text-4xl font-bold md-4 text-center">Bienvenue dans</p>
+                    <img src="public/QPUC4x.png" alt="LogoQPUC" class="w-60 sm:w-72 md:w-80 lg:w-96">
+                    <img src="public/samumu.png" alt="Samumu" class="w-20 sm:w-32 md:w-40 lg:w-56 mt-5">
+                </div>
+            </div>
+
+            <div class="basic-container">
+                <h2 class="subtitle">Fin du Quizz</h2>
+                <h3 id='winner' class="sub-subtitle"></h3>
+                <button id="back-to-home-page" class="main-menu-button" onclick="Init();">Retourner à la page d'accueil</button>
+            </div>
+        </section>
+    </body>
+</html>
