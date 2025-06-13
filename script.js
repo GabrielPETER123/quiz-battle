@@ -188,6 +188,11 @@ const NextQuestion = async() => {
         NextQuestion();
         
     } else {
+        //** Réactive les bouttons */
+        Answer1.disabled = false;
+        Answer2.disabled = false;
+        Answer3.disabled = false;
+        Answer4.disabled = false;
         await TimerQuestion();
         TimerQuizz.innerText = 'Temps restant: 10 secondes';
         await WaitForNextQuestion();
@@ -265,11 +270,6 @@ const WaitForNextQuestion = async() => {
                 PlayersPoints.innerText = player1Name + ' : ' + player1Point + '\n' + player2Name + ' : ' + player2Point;
             }
         PlayerTurn.innerText = 'Au tour de ' + playerTurn + ' !';
-        //** Réactive les bouttons */
-        Answer1.disabled = false;
-        Answer2.disabled = false;
-        Answer3.disabled = false;
-        Answer4.disabled = false;
         resolve();
     }, 4000);
 });
@@ -333,6 +333,11 @@ const TimerQuestion = async() => {
                     questionIndex--;
                 }
                 clearInterval(Interval);
+                //** Réactive les bouttons */
+                Answer1.disabled = true;
+                Answer2.disabled = true;
+                Answer3.disabled = true;
+                Answer4.disabled = true;
                 resolve();
             }
         }, 1000);
