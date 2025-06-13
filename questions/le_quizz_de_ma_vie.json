@@ -27,7 +27,7 @@
       "question": "Qu'est-ce que j'ai en animal de compagnie ?",
       "answers": [
         {
-          "awnser": "2 chiens",
+          "answer": "2 chiens",
           "isCorrect": false
         },
         {
@@ -186,7 +186,7 @@
         },
         {
           "answer": "Une mine de charbon réaffecté",
-          "isCorrect": true
+          "isCorrect": false
         },
         {
           "answer": "Une grue",
@@ -201,7 +201,7 @@
     {
       "id": 10,
       "question": "Comment s'appelle mon ex (que j'ai quitté en Juin)",
-      "awnsers": [
+      "answers": [
         {
           "answer": "Coralie",
           "isCorrect": true
